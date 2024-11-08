@@ -1,6 +1,7 @@
 package com.pover.Library.model;
 
 
+import com.pover.Library.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -21,6 +22,9 @@ public class Admin {
     @NotNull
     private String password;
 
-    private String role = "admin";
+
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 }
