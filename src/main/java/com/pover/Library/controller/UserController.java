@@ -28,7 +28,7 @@ public class UserController {
 
     // ange: http://localhost:8080/user/findByMemberNumber?member_number=some_value
     @GetMapping("/findByMemberNumber")
-    public ResponseEntity<UserResponseDto> getUserByMemberNumber(@RequestParam @NotBlank String member_number) {
+    public ResponseEntity<UserResponseDto> getUserByMemberNumber(@RequestParam String member_number) {
         if (member_number.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
