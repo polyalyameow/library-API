@@ -10,7 +10,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "member_number")})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +22,10 @@ public class User {
     private String last_name;
 
     @NotNull
-    @Column(unique = true)
     @Email(message = "Email must be valid")
     private String email;
 
+    @NotNull
     @Column(name = "member_number", unique = true)
-    private String member_number;
+    private String memberNumber;
 }

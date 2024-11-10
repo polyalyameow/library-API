@@ -2,13 +2,13 @@ package com.pover.Library.controller;
 
 import com.pover.Library.dto.UserRequestDto;
 import com.pover.Library.dto.UserResponseDto;
-import com.pover.Library.model.User;
 import com.pover.Library.service.UserService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -21,14 +21,18 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserResponseDto> create(@RequestBody UserRequestDto userRequestDto) {
-        UserResponseDto userResponseDto = userService.createUser(userRequestDto);
-        return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
+    public ResponseEntity<UserResponseDto> create(@Valid @RequestBody UserRequestDto userRequestDto) {
+            UserResponseDto userResponseDto = userService.createUser(userRequestDto);
+            return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
     }
 
+    // ange: http://localhost:8080/user/findByMemberNumber?member_number=some_value
     @GetMapping("/findByMemberNumber")
-    public ResponseEntity<UserResponseDto> getUserByMemberNumber(@RequestParam String memberNumber) {
-        Optional<UserResponseDto> userResponseDto  = userService.getUserByMemberNumber(memberNumber);
+    public ResponseEntity<UserResponseDto> getUserByMemberNumber(@RequestParam @NotBlank String member_number) {
+        if (member_number.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Optional<UserResponseDto> userResponseDto  = userService.getUserByMemberNumber(member_number);
 
         return userResponseDto
                 .map(responseDto -> new ResponseEntity<>(responseDto, HttpStatus.OK))

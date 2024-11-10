@@ -16,8 +16,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Optional<UserResponseDto> getUserByMemberNumber(String member_number) {
-        return userRepository.findByMemberNumber(member_number)
+    public Optional<UserResponseDto> getUserByMemberNumber(String memberNumber) {
+        User user = userRepository.findByMemberNumber(memberNumber).orElse(null);
+        return userRepository.findByMemberNumber(memberNumber)
                 .map(this::convertToDto);
     }
 
@@ -31,7 +32,7 @@ public class UserService {
         user.setFirst_name(userRequestDto.getFirst_name());
         user.setLast_name(userRequestDto.getLast_name());
         user.setEmail(userRequestDto.getEmail());
-        user.setMember_number(userRequestDto.getMember_number());
+        user.setMemberNumber(userRequestDto.getMember_number());
         userRepository.save(user);
 
         return convertToDto(user);
@@ -44,7 +45,7 @@ public class UserService {
                 user.getUser_id(),
                 user.getFirst_name(),
                 user.getLast_name(),
-                user.getMember_number()
+                user.getMemberNumber()
         );
     }
 }
