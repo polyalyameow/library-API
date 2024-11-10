@@ -26,5 +26,6 @@ public class User {
     @Email(message = "Email must be valid")
     private String email;
 
+    @Column(name = "member_number", unique = true)
     private String member_number;
 }

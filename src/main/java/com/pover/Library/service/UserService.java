@@ -6,6 +6,8 @@ import com.pover.Library.model.User;
 import com.pover.Library.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -13,6 +15,12 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    public Optional<UserResponseDto> getUserByMemberNumber(String member_number) {
+        return userRepository.findByMemberNumber(member_number)
+                .map(this::convertToDto);
+    }
+
 
     public UserResponseDto createUser(UserRequestDto userRequestDto) {
         if (userRepository.existsByMemberNumber(userRequestDto.getMember_number())) {
@@ -26,6 +34,17 @@ public class UserService {
         user.setMember_number(userRequestDto.getMember_number());
         userRepository.save(user);
 
-        return new UserResponseDto(user.getUser_id(), user.getFirst_name(), user.getLast_name(), user.getMember_number());
+        return convertToDto(user);
+    }
+
+
+    // konverterar User till UserResponseDto
+    private UserResponseDto convertToDto(User user) {
+        return new UserResponseDto(
+                user.getUser_id(),
+                user.getFirst_name(),
+                user.getLast_name(),
+                user.getMember_number()
+        );
     }
 }
