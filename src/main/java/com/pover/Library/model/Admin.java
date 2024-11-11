@@ -4,8 +4,11 @@ package com.pover.Library.model;
 import com.pover.Library.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.Getter;
+
 import lombok.Setter;
+
 
 @Entity
 @Getter
