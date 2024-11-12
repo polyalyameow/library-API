@@ -1,5 +1,6 @@
 package com.pover.Library.dto;
 
+import com.pover.Library.model.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,4 +28,7 @@ public class UserRequestDto {
             message = "Please enter twelve digits"
     )
     private String member_number;
+    private Role role;
+
+
 }

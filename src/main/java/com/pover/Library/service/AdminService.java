@@ -5,6 +5,7 @@ import com.pover.Library.dto.AdminResponseDto;
 import com.pover.Library.model.Admin;
 import com.pover.Library.repository.AdminRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class AdminService {
         this.adminRepository = adminRepository;
     }
 
-    public AdminResponseDto createAdmin(AdminRequestDto adminRequestDto) {
+    public AdminResponseDto createAdmin(@Valid  AdminRequestDto adminRequestDto) {
         if(adminRepository.existsByUsername(adminRequestDto.getUsername())){
             throw new IllegalArgumentException("Username already exists");
         }

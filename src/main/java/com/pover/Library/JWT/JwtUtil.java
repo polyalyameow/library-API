@@ -25,10 +25,14 @@ public class JwtUtil {
         this.jwtExpirationMs = jwtExpirationMs;
     }
 
-    public String generateToken(Long adminId, Role role, String username) {
+
+
+
+    public String generateToken(Long id, Role role, String username) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("adminId", adminId);
-        claims.put("role", role);
+        claims.put("id", id);
+        claims.put("role", role.name());
+        claims.put("username", username);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -38,6 +42,8 @@ public class JwtUtil {
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
+
+
 
     public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();

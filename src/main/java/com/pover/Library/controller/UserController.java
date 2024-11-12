@@ -1,15 +1,18 @@
 package com.pover.Library.controller;
 
+
 import com.pover.Library.dto.UserRequestDto;
 import com.pover.Library.dto.UserResponseDto;
 import com.pover.Library.service.UserService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -38,4 +41,13 @@ public class UserController {
                 .map(responseDto -> new ResponseEntity<>(responseDto, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @GetMapping("/users")
+
+    public ResponseEntity<List<UserResponseDto>> getAll(){
+        List<UserResponseDto> users = userService.getUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.pover.Library.model;
 
 
+import com.pover.Library.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Email;
@@ -28,4 +29,7 @@ public class User {
     @NotNull
     @Column(name = "member_number", unique = true)
     private String memberNumber;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

@@ -6,7 +6,9 @@ import com.pover.Library.model.User;
 import com.pover.Library.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -33,6 +35,7 @@ public class UserService {
         user.setLast_name(userRequestDto.getLast_name());
         user.setEmail(userRequestDto.getEmail());
         user.setMemberNumber(userRequestDto.getMember_number());
+        user.setRole(userRequestDto.getRole());
         userRepository.save(user);
 
         return convertToDto(user);
@@ -47,5 +50,14 @@ public class UserService {
                 user.getLast_name(),
                 user.getMemberNumber()
         );
+    }
+
+
+    public List<UserResponseDto> getUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(users-> new UserResponseDto(users.getUser_id(), users.getLast_name(), users.getFirst_name(), users.getMemberNumber()))
+                .collect(Collectors.toList());
+
     }
 }
