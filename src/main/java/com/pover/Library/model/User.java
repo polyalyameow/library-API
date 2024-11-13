@@ -30,6 +30,9 @@ public class User {
     @Column(name = "member_number", unique = true)
     private String memberNumber;
 
+    @NotNull
+    private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 }

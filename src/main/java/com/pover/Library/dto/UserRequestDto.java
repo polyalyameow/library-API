@@ -12,9 +12,11 @@ import lombok.Setter;
 @Setter
 public class UserRequestDto {
 
+    @NotNull
     @NotBlank(message = "First name is required")
     private String first_name;
 
+    @NotNull
     @NotBlank(message = "Last name is required")
     private String last_name;
 
@@ -22,13 +24,20 @@ public class UserRequestDto {
     @NotBlank(message = "Use a valid email")
     private String email;
 
+    @NotNull
     @NotBlank(message = "Personal number is required")
     @Pattern(
             regexp = "^(19|20)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])\\d{4}$",
             message = "Please enter twelve digits"
     )
     private String member_number;
-    private Role role;
+
+//    private Role role;
+
+    @NotNull
+    @NotBlank(message = "Password is required")
+    @Pattern(regexp = "^\\d{4}$", message = "Password must be 4 digits")
+    private String password;
 
 
 }
