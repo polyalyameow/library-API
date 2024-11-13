@@ -1,6 +1,7 @@
 package com.pover.Library.controller;
 
 
+import com.pover.Library.dto.AdminResponseDto;
 import com.pover.Library.dto.UserRequestDto;
 import com.pover.Library.dto.UserResponseDto;
 import com.pover.Library.service.UserService;
@@ -48,6 +49,12 @@ public class UserController {
     public ResponseEntity<List<UserResponseDto>> getAll(){
         List<UserResponseDto> users = userService.getUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDto> getById(@PathVariable long id){
+        UserResponseDto userResponseDto = userService.getUserById(id);
+        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
 //    @PostMapping("/login")

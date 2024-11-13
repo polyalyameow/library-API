@@ -83,7 +83,7 @@ public class LoanService {
 
     public List<LoanResponseDto> getUserActiveLoans(Long userId) {
 
-        List<Loan> activeLoans = loanRepository.findByUserIdandReturnedDateIsNull(userId);
+        List<Loan> activeLoans = loanRepository.findByUserIdAndReturnedDateIsNull(userId);
 
         return activeLoans.stream()
                 .map(LoanResponseDto::new)
