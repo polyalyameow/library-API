@@ -21,7 +21,7 @@ public class Loan {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @NotNull
+   // @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -32,6 +32,7 @@ public class Loan {
     @NotNull
     private LocalDate due_date;
 
+    @Column(name = "returned_date")
     private LocalDate returned_date;
 
 }

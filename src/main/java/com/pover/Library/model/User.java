@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -15,6 +17,7 @@ import lombok.Setter;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long user_id;
 
     @NotNull
@@ -35,4 +38,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Loan> loans;
 }

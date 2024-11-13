@@ -81,9 +81,9 @@ public class LoanService {
         return new LoanResponseDto(loan);
     }
 
-    public List<LoanResponseDto> getUserActiveLoans(Long userId) {
+    public List<LoanResponseDto> getUserActiveLoans(Long user_id) {
 
-        List<Loan> activeLoans = loanRepository.findByUserIdAndReturnedDateIsNull(userId);
+        List<Loan> activeLoans = loanRepository.findByUser_UserIdAndReturnedDateIsNull(user_id);
 
         return activeLoans.stream()
                 .map(LoanResponseDto::new)
