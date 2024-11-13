@@ -116,12 +116,12 @@ INSERT INTO books_genres (book_id, genre_id) VALUES
                                                  (10, 4); -- Mrs. Dalloway: Classic
 
 -- Populate users
-INSERT INTO users (first_name, last_name, email, member_number) VALUES
-                                                                    ('Anna', 'Andersson', 'anna.andersson@email.com', 'M20230001'),
-                                                                    ('Erik', 'Eriksson', 'erik.eriksson@email.com', 'M20230002'),
-                                                                    ('Maria', 'Svensson', 'maria.svensson@email.com', 'M20230003'),
-                                                                    ('Johan', 'Johansson', 'johan.johansson@email.com', 'M20230004'),
-                                                                    ('Eva', 'Larsson', 'eva.larsson@email.com', 'M20230005');
+INSERT INTO users (first_name, last_name, email, member_number, password) VALUES
+                                                                    ('Anna', 'Andersson', 'anna.andersson@email.com', 'M20230001', '1234'),
+                                                                    ('Erik', 'Eriksson', 'erik.eriksson@email.com', 'M20230002', '1234'),
+                                                                    ('Maria', 'Svensson', 'maria.svensson@email.com', 'M20230003', '1234'),
+                                                                    ('Johan', 'Johansson', 'johan.johansson@email.com', 'M20230004', '1234'),
+                                                                    ('Eva', 'Larsson', 'eva.larsson@email.com', 'M20230005', '1234');
 
 -- Populate loans
 INSERT INTO loans (book_id, user_id, loan_date, due_date, returned_date) VALUES
