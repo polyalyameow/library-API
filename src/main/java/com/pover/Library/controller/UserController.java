@@ -43,7 +43,6 @@ public class UserController {
     }
 
     @GetMapping("/users")
-
     public ResponseEntity<List<UserResponseDto>> getAll(){
         List<UserResponseDto> users = userService.getUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);

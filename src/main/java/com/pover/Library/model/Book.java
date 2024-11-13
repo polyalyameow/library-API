@@ -17,7 +17,8 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long book_id;
-    @NotNull
+
+    @NotNull(message = "Title is required")
     private String title;
 
     private int publication_year;
