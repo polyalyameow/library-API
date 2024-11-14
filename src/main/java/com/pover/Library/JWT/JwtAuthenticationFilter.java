@@ -35,31 +35,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String header = request.getHeader("Authorization");
 
-
         if (header == null || !header.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-
         String token = header.substring(7);
-
+        String role = jwtUtil.extractAllClaims(token).get("role", String.class);
         String username = jwtUtil.extractUsername(token);
         String memberNumber = jwtUtil.extractMemberNumber(token);
-        String role = jwtUtil.extractAllClaims(token).get("role", String.class);
 
         if (username != null && jwtUtil.validateToken(token, username, null)) {
-//            Claims claims = jwtUtil.extractAllClaims(token);
-//            String username = claims.getSubject();
-//            String role = claims.get("role", String.class);
-              UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    username, null, List.of(new SimpleGrantedAuthority(role)));
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    username, null, List.of(new SimpleGrantedAuthority("ROLE_" + role)));
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
         } else if (memberNumber != null && jwtUtil.validateToken(token, null, memberNumber)) {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    memberNumber, null, List.of(new SimpleGrantedAuthority(role)));
+                    memberNumber, null, List.of(new SimpleGrantedAuthority("ROLE_" + role)));
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

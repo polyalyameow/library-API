@@ -26,10 +26,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/login", "/user/login", "/admin/visitor/by-member-number").permitAll()
-                        .requestMatchers("/loans/**").hasAnyAuthority("USER", "ADMIN", "LIBRARIAN")
-                        .requestMatchers("/admin/**").authenticated()
-                        .requestMatchers("/user/profile").hasAuthority("USER")
-                        .anyRequest().permitAll()
+                        .requestMatchers("/loans/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN", "ROLE_LIBRARIAN")
+                        .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_LIBRARIAN")
+                        .requestMatchers("/user/profile").hasAuthority("ROLE_USER")
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

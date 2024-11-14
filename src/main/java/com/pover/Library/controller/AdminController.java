@@ -9,12 +9,14 @@ import com.pover.Library.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
+@Validated
 public class AdminController {
     private final AdminService adminService;
     private final JwtUtil jwtUtil;
