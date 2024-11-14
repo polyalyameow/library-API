@@ -1,12 +1,16 @@
 package com.pover.Library.service;
 
 import com.pover.Library.JWT.JwtUtil;
+import com.pover.Library.dto.LoanResponseDto;
 import com.pover.Library.dto.UserProfileRequestDto;
 import com.pover.Library.dto.UserProfileResponseDto;
 import com.pover.Library.model.User;
 import com.pover.Library.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserProfileService {
@@ -25,7 +29,12 @@ public class UserProfileService {
         User user = userRepository.findByMemberNumber(memberNumber)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        return new UserProfileResponseDto(user.getFirst_name(), user.getLast_name(), user.getEmail());
+        List<LoanResponseDto> activeLoans = user.getLoans().stream()
+                .filter(loan -> loan.getReturnedDate() == null)
+                .map(LoanResponseDto::new)
+                .collect(Collectors.toList());
+
+        return new UserProfileResponseDto(user.getFirst_name(), user.getLast_name(), user.getEmail(), activeLoans);
     }
 
     @Transactional
@@ -47,7 +56,12 @@ public class UserProfileService {
 
         userRepository.save(user);
 
-        return new UserProfileResponseDto(user.getFirst_name(), user.getLast_name(), user.getEmail());
+        List<LoanResponseDto> activeLoans = user.getLoans().stream()
+                .filter(loan -> loan.getReturnedDate() == null)
+                .map(LoanResponseDto::new)
+                .collect(Collectors.toList());
+
+        return new UserProfileResponseDto(user.getFirst_name(), user.getLast_name(), user.getEmail(), activeLoans);
     }
 
 }
