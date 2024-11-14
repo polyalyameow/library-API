@@ -26,8 +26,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/login", "/user/login", "/admin/visitor/by-member-number").permitAll()
-                                .requestMatchers("/loans/**").hasAnyAuthority("USER", "ADMIN", "LIBRARIAN")
+                        .requestMatchers("/loans/**").hasAnyAuthority("USER", "ADMIN", "LIBRARIAN")
                         .requestMatchers("/admin/**").authenticated()
+                        .requestMatchers("/user/profile").hasAuthority("USER")
                         .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

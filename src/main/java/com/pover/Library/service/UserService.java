@@ -29,7 +29,7 @@ public class UserService {
         Optional<User> existingUser = userRepository.findByMemberNumber(memberNumber);
 
         if (existingUser.isPresent() && passwordEncoder.matches(password, existingUser.get().getPassword())) {
-            String token = jwtUtil.generateToken(existingUser.get().getUser_id(), existingUser.get().getRole(), existingUser.get().getMemberNumber());
+            String token = jwtUtil.generateToken(existingUser.get().getUser_id(), existingUser.get().getRole(), null, existingUser.get().getMemberNumber());
             return Optional.of(token);
         }
         return Optional.empty();

@@ -55,7 +55,7 @@ public class AdminController {
         if(admin == null){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        String token = jwtUtil.generateToken(admin.getAdmin_id(),admin.getRole(), admin.getUsername());
+        String token = jwtUtil.generateToken(admin.getAdmin_id(),admin.getRole(), admin.getUsername(), null);
 
         ResponseAdminLoginDto responseAdminLoginDto = new ResponseAdminLoginDto(token);
         return new ResponseEntity<>(responseAdminLoginDto, HttpStatus.OK);

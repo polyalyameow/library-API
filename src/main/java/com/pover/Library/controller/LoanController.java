@@ -1,17 +1,14 @@
 package com.pover.Library.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pover.Library.dto.LoanRequestDto;
 import com.pover.Library.dto.LoanResponseDto;
 import com.pover.Library.service.LoanService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
