@@ -43,16 +43,14 @@ public class UserService {
 
     public UserResponseDto getUserById(Long user_id) {
         User user = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User not found"));
-        return new UserResponseDto(user.getUser_id(), user.getFirst_name(), user.getLast_name(), user.getMemberNumber());
+        return new UserResponseDto(user);
     }
 
     public UserResponseDto getUserByMemberNumber(String memberNumber) {
-        // Assume you have a method in UserRepository to find user by member number
         User user = userRepository.findByMemberNumber(memberNumber)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Map to UserResponseDto
-        return new UserResponseDto(user.getUser_id(), user.getFirst_name(), user.getLast_name(), user.getMemberNumber());
+        return new UserResponseDto(user);
     }
 
 
@@ -81,19 +79,14 @@ public class UserService {
 
     // konverterar User till UserResponseDto
     private UserResponseDto convertToDto(User user) {
-        return new UserResponseDto(
-                user.getUser_id(),
-                user.getFirst_name(),
-                user.getLast_name(),
-                user.getMemberNumber()
-        );
+        return new UserResponseDto(user);
     }
 
 
     public List<UserResponseDto> getUsers() {
         return userRepository.findAll()
                 .stream()
-                .map(users-> new UserResponseDto(users.getUser_id(), users.getLast_name(), users.getFirst_name(), users.getMemberNumber()))
+                .map(user-> new UserResponseDto(user))
                 .collect(Collectors.toList());
 
     }

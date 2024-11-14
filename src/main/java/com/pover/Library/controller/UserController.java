@@ -2,6 +2,7 @@ package com.pover.Library.controller;
 
 
 import com.pover.Library.dto.AdminResponseDto;
+import com.pover.Library.dto.MemberNumberRequestDto;
 import com.pover.Library.dto.UserRequestDto;
 import com.pover.Library.dto.UserResponseDto;
 import com.pover.Library.service.UserService;
@@ -9,6 +10,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -57,21 +59,12 @@ public class UserController {
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestParam String memberNumber, @RequestParam String password) {
-//        Optional<String> token = userService.authenticateUser(memberNumber, password);
-//        return token
-//                .map(t -> {
-//                    Map<String, String> response = new HashMap<>();
-//                    response.put("token", t);
-//                    return ResponseEntity.ok(response);
-//                })
-//                .orElseGet(() -> {
-//                    Map<String, String> errorResponse = new HashMap<>();
-//                    errorResponse.put("error", "Invalid credentials");
-//                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-//                });
-//    }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/admin/by-member-number")
+    public ResponseEntity<UserResponseDto> getUserByMemberNumber(@RequestBody MemberNumberRequestDto requestDto) {
+        UserResponseDto userResponse = userService.getUserByMemberNumber(requestDto.getMember_number());
+        return ResponseEntity.ok(userResponse);
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {

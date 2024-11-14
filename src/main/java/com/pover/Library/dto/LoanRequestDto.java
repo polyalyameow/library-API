@@ -13,15 +13,14 @@ import java.time.LocalDate;
 public class LoanRequestDto {
 
     @NotNull
-    private Book book;
+    private Long bookId;
 
     @NotNull
-    private User user;
+    private Long userId;
 
     @NotNull
     private LocalDate due_date;
 
-    @NotNull
     private LocalDate returned_date;
 
 }

@@ -1,5 +1,6 @@
 package com.pover.Library.dto;
 
+import com.pover.Library.model.User;
 import com.pover.Library.model.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,11 +15,11 @@ public class UserResponseDto {
     private String member_number;
     private Role role;
 
-    public UserResponseDto(Long user_id, String first_name, String last_name, String member_number) {
-        this.user_id = user_id;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.member_number = member_number;
+    public UserResponseDto(User user) {
+        this.user_id = user.getUser_id();
+        this.first_name = user.getFirst_name();
+        this.last_name = user.getLast_name();
+        this.member_number = user.getMemberNumber();
         this.role = Role.USER;
 
     }

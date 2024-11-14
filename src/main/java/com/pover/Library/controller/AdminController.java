@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
@@ -67,18 +66,6 @@ public class AdminController {
       //  AdminResponseDto adminResponseDto = adminService.deleteAdminById(id, currentAdmin);
         //return new ResponseEntity<>(adminResponseDto, HttpStatus.OK);
     //}
-
-//    @PostMapping("/visitor/by-member-number")
-//    public ResponseEntity<UserResponseDto> getVisitorByMemberNumber(@RequestParam MemberNumberRequestDto memberNumberRequestDto) {
-//        if (memberNumberRequestDto.getMember_number() == null || memberNumberRequestDto.getMember_number().isEmpty()) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//        Optional<UserResponseDto> userResponseDto  = userService.getUserByMemberNumber(memberNumberRequestDto.getMember_number());
-//
-//        return userResponseDto
-//                .map(responseDto -> new ResponseEntity<>(responseDto, HttpStatus.OK))
-//                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-//    }
 
     @PostMapping("/by-member-number")
     public ResponseEntity<UserResponseDto> getUserByMemberNumber(@RequestBody MemberNumberRequestDto requestDto) {

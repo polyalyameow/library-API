@@ -1,6 +1,7 @@
 package com.pover.Library.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pover.Library.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -34,11 +35,13 @@ public class User {
     private String memberNumber;
 
     @NotNull
+    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Loan> loans;
 }
