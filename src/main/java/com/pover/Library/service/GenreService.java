@@ -6,6 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GenreService {
@@ -14,6 +15,9 @@ public class GenreService {
         this.genreRepository = genreRepository;
     }
 
+    public Optional<Genre> findById(long id) {
+        return genreRepository.findById(id);
+    }
 
     public List<Genre> findAllGenres(){
         return genreRepository.findAll();

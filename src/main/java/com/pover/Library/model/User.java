@@ -1,12 +1,15 @@
 package com.pover.Library.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pover.Library.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,6 +18,7 @@ import lombok.Setter;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long user_id;
 
     @NotNull
@@ -30,6 +34,14 @@ public class User {
     @Column(name = "member_number", unique = true)
     private String memberNumber;
 
+    @NotNull
+    @JsonIgnore
+    private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Loan> loans;
 }

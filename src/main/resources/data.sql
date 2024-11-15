@@ -116,12 +116,13 @@ INSERT INTO books_genres (book_id, genre_id) VALUES
                                                  (10, 4); -- Mrs. Dalloway: Classic
 
 -- Populate users
-INSERT INTO users (first_name, last_name, email, member_number) VALUES
-                                                                    ('Anna', 'Andersson', 'anna.andersson@email.com', 'M20230001'),
-                                                                    ('Erik', 'Eriksson', 'erik.eriksson@email.com', 'M20230002'),
-                                                                    ('Maria', 'Svensson', 'maria.svensson@email.com', 'M20230003'),
-                                                                    ('Johan', 'Johansson', 'johan.johansson@email.com', 'M20230004'),
-                                                                    ('Eva', 'Larsson', 'eva.larsson@email.com', 'M20230005');
+INSERT INTO users (first_name, last_name, email, member_number, password, role) VALUES
+                                                                    ('Anna', 'Andersson', 'anna.andersson@email.com', 'M20230001', '1234', 'USER'),
+                                                                    ('Erik', 'Eriksson', 'erik.eriksson@email.com', 'M20230002', '1234', 'USER'),
+                                                                    ('Maria', 'Svensson', 'maria.svensson@email.com', 'M20230003', '1234', 'USER'),
+                                                                    ('Johan', 'Johansson', 'johan.johansson@email.com', 'M20230004', '1234', 'USER'),
+                                                                    ('Eva', 'Larsson', 'eva.larsson@email.com', 'M20230005', '1234', 'USER'),
+                                                                    ('user1', 'superuser', 'superuser@user.com', '200203040345', '$2a$10$nHC0aQP7cGKP2O5aWIrMKOVe1cdST2RG9BxaE1GLk44jQn3fy0Mka', 'USER');
 
 -- Populate loans
 INSERT INTO loans (book_id, user_id, loan_date, due_date, returned_date) VALUES
@@ -129,9 +130,8 @@ INSERT INTO loans (book_id, user_id, loan_date, due_date, returned_date) VALUES
                                                                              (5, 2, '2024-01-20', '2024-02-20', NULL),
                                                                              (9, 3, '2024-01-25', '2024-02-25', NULL),
                                                                              (1, 4, '2023-12-15', '2024-01-15', '2024-01-14'),
-                                                                             (3, 5, '2023-12-20', '2024-01-20', '2024-01-18'),
+                                                                             (3, 6, '2023-12-20', '2024-01-20', '2024-01-18'),
                                                                              (6, 1, '2023-12-25', '2024-01-25', '2024-01-23');
-
 -- Populate admins
 INSERT INTO admins (username, password, role) VALUES
                                                   ('admin', 'admin123', 'ADMIN'),
