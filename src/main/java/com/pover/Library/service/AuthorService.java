@@ -6,6 +6,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class AuthorService {
     private final AuthorRepository authorRepository;
@@ -13,10 +15,14 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
+    public Optional<Author> findById(Long id) {
+        return authorRepository.findById(id);
+    }
 
     public List<Author> findAll(){
         return authorRepository.findAll();
     }
+
     public Author getAuthorById(Long id) {
         return authorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Author not found with id " + id));

@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 public class BookRequestDto {
@@ -18,8 +20,9 @@ public class BookRequestDto {
             message = "Publication year must be a valid year in the format YYYY")
     private int publication_year;
 
-    /*@NotBlank(message = "Author cannot be blank")
-    private String author;*/
+    private Long author_id;
+
+    private Set<Long> genre_id;
 
     private boolean available;
 

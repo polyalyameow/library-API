@@ -9,5 +9,4 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByTitle(String title);
 
-    List<Book> findByAvailable(boolean available);
 }
