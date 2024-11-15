@@ -25,6 +25,10 @@ public class Author {
     @NotNull
     private String last_name;
 
+    public String getName() {
+        return first_name + " " + last_name;
+    }
+
     private LocalDate birth_date;
 
     @JsonIgnore

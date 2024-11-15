@@ -7,6 +7,7 @@ import com.pover.Library.model.Admin;
 import com.pover.Library.service.AdminService;
 import com.pover.Library.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -32,13 +33,13 @@ public class AdminController {
 
     @Operation(summary = "Create a new Admin", description = "Creates a new admin user with a unique username")
     @PostMapping("/create")
-    public ResponseEntity<AdminResponseDto> create(@RequestBody AdminRequestDto adminRequestDto){
+    public ResponseEntity<AdminResponseDto> create(@Valid @RequestBody AdminRequestDto adminRequestDto){
         AdminResponseDto adminResponseDto = adminService.createAdmin(adminRequestDto);
 
     //Service omvandlar admin till en responseDto
         return new ResponseEntity<>( adminResponseDto, HttpStatus.CREATED);
 }
-
+    @Operation(summary = "Get all Admins", description = "Get all admins incl librarians")
     @GetMapping("/get")
     public ResponseEntity<List<AdminResponseDto>> getAll(){
         List<AdminResponseDto> admins = adminService.getAdmins();
