@@ -40,24 +40,32 @@ public class AdminProfileService {
         User user = userRepository.findByMemberNumber(memberNumber)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        if (adminProfileRequestDto.getFirst_name() != null) {
+        if (adminProfileRequestDto.getFirst_name() != null && !adminProfileRequestDto.getFirst_name().isBlank()) {
             user.setFirst_name(adminProfileRequestDto.getFirst_name());
-        }
-        if (adminProfileRequestDto.getLast_name() != null) {
-            user.setLast_name(adminProfileRequestDto.getLast_name());
-        }
-        if (adminProfileRequestDto.getEmail() != null) {
-            user.setEmail(adminProfileRequestDto.getEmail());
+        } else if (adminProfileRequestDto.getFirst_name() != null) {
+            throw new IllegalArgumentException("First name cannot be blank");
         }
 
-        if (adminProfileRequestDto.getPassword() != null) {
+        if (adminProfileRequestDto.getLast_name() != null && !adminProfileRequestDto.getLast_name().isBlank()) {
+            user.setLast_name(adminProfileRequestDto.getLast_name());
+        } else if (adminProfileRequestDto.getLast_name() != null) {
+            throw new IllegalArgumentException("Last name cannot be blank");
+        }
+
+        if (adminProfileRequestDto.getEmail() != null && !adminProfileRequestDto.getEmail().isBlank()) {
+            user.setEmail(adminProfileRequestDto.getEmail());
+        } else if (adminProfileRequestDto.getEmail() != null) {
+            throw new IllegalArgumentException("Email cannot be blank");
+        }
+
+        if (adminProfileRequestDto.getPassword() != null && !adminProfileRequestDto.getPassword().isBlank()) {
+            if (!adminProfileRequestDto.getPassword().matches("^\\d{4}$")) {
+                throw new IllegalArgumentException("Password must be 4 digits");
+            }
             String hashedPassword = passwordEncoder.encode(adminProfileRequestDto.getPassword());
             user.setPassword(hashedPassword);
         }
 
-        if (adminProfileRequestDto.getMember_number() != null && !adminProfileRequestDto.getMember_number().equals(user.getMemberNumber())) {
-            user.setMemberNumber(adminProfileRequestDto.getMember_number());
-        }
 
         userRepository.save(user);
 

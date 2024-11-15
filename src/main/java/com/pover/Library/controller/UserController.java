@@ -33,21 +33,8 @@ public class UserController {
             return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
     }
 
-    // ange: http://localhost:8080/user/findByMemberNumber?member_number=some_value
-//    @GetMapping("/findByMemberNumber")
-//    public ResponseEntity<UserResponseDto> getUserByMemberNumber(@RequestParam String member_number) {
-//        if (member_number.isEmpty()) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//        Optional<UserResponseDto> userResponseDto  = userService.getUserByMemberNumber(member_number);
-//
-//        return userResponseDto
-//                .map(responseDto -> new ResponseEntity<>(responseDto, HttpStatus.OK))
-//                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-//    }
 
     @GetMapping("/users")
-
     public ResponseEntity<List<UserResponseDto>> getAll(){
         List<UserResponseDto> users = userService.getUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
@@ -59,12 +46,6 @@ public class UserController {
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/admin/by-member-number")
-    public ResponseEntity<UserResponseDto> getUserByMemberNumber(@RequestBody MemberNumberRequestDto requestDto) {
-        UserResponseDto userResponse = userService.getUserByMemberNumber(requestDto.getMember_number());
-        return ResponseEntity.ok(userResponse);
-    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {

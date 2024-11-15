@@ -69,9 +69,4 @@ public class AdminController {
         //return new ResponseEntity<>(adminResponseDto, HttpStatus.OK);
     //}
 
-    @PostMapping("/by-member-number")
-    public ResponseEntity<UserResponseDto> getUserByMemberNumber(@RequestBody MemberNumberRequestDto requestDto) {
-        UserResponseDto userResponse = userService.getUserByMemberNumber(requestDto.getMember_number());
-        return ResponseEntity.ok(userResponse);
-    }
 }

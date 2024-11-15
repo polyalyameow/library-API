@@ -29,8 +29,6 @@ public class UserRequestDto {
     )
     private String member_number;
 
-//    private Role role;
-
     @NotBlank(message = "Password is required")
     @Pattern(regexp = "^\\d{4}$", message = "Password must be 4 digits")
     private String password;

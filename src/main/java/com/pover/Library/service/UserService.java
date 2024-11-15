@@ -6,6 +6,7 @@ import com.pover.Library.dto.UserResponseDto;
 import com.pover.Library.model.User;
 import com.pover.Library.model.enums.Role;
 import com.pover.Library.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,25 +36,14 @@ public class UserService {
         return Optional.empty();
     }
 
-//    public Optional<UserResponseDto> getUserByMemberNumber(String memberNumber) {
-//        User user = userRepository.findByMemberNumber(memberNumber).orElse(null);
-//        return userRepository.findByMemberNumber(memberNumber)
-//                .map(this::convertToDto);
-//    }
 
     public UserResponseDto getUserById(Long user_id) {
         User user = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User not found"));
         return new UserResponseDto(user);
     }
 
-    public UserResponseDto getUserByMemberNumber(String memberNumber) {
-        User user = userRepository.findByMemberNumber(memberNumber)
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return new UserResponseDto(user);
-    }
-
-
+    @Transactional
     public UserResponseDto createUser(UserRequestDto userRequestDto) {
         if (userRepository.existsByMemberNumber(userRequestDto.getMember_number())) {
             throw new IllegalArgumentException("Entered personal number is already in the system");
