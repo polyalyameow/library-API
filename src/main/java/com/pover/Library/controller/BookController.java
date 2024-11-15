@@ -58,4 +58,9 @@ public class BookController {
             return new ResponseEntity<>("Book not found", HttpStatus.NOT_FOUND);
         }
     }
-}
+    @GetMapping("/search")
+    public List<BookResponseDto> searchBooks(@RequestParam("query") String query) {
+        return bookService.searchBooks(query);
+    }
+    }
+

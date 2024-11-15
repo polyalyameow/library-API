@@ -60,10 +60,25 @@ public class AdminController {
         ResponseAdminLoginDto responseAdminLoginDto = new ResponseAdminLoginDto(token);
         return new ResponseEntity<>(responseAdminLoginDto, HttpStatus.OK);
     }
+    @Operation(summary = "Log out Admin", description = "Logs out the admin by invalidating the token")
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String authHeader) {
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7); // Extrahera token
+            boolean isLoggedOut = adminService.logout(token); // Anropar AdminService för att hantera logout
+
+            if (isLoggedOut) {
+                return new ResponseEntity<>("Successfully logged out", HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>("Invalid logout request", HttpStatus.BAD_REQUEST);
+    }
 
    // @DeleteMapping("/delete/{id}")
     //public ResponseEntity<AdminResponseDto> delete(@PathVariable long id, @AuthenticationPrincipal Admin currentAdmin){
       //  AdminResponseDto adminResponseDto = adminService.deleteAdminById(id, currentAdmin);
         //return new ResponseEntity<>(adminResponseDto, HttpStatus.OK);
     //}
+
+
 }

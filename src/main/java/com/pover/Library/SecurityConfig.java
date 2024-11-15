@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -24,6 +26,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/login").permitAll()
+                        .requestMatchers("/admin/logout").permitAll()
                         .requestMatchers("/admin/**").authenticated()
                         .anyRequest().permitAll()
                 )
@@ -32,4 +35,16 @@ public class SecurityConfig {
 
         return http.build();
     }
-}
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**") // Tillåt alla endpoints
+                        .allowedOrigins("http://127.0.0.1:5501") // Tillåt frontend-porten
+                        .allowedMethods("GET", "POST", "PUT", "DELETE") // Tillåtna metoder
+                        .allowedHeaders("*") // Tillåtna headers
+                        .allowCredentials(true); // Tillåt cookies om behövs
+            }
+        };
+}}

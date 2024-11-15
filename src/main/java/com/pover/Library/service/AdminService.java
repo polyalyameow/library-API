@@ -56,4 +56,7 @@ public class AdminService {
         }
         return null;
     }
+    public boolean logout(String token) {
+        return token != null && !token.isEmpty();
+    }
 }
