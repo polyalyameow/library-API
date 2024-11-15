@@ -94,4 +94,13 @@ public class BookService {
     }
 
 
+    public List<BookResponseDto> searchBooks(String query) {
+
+        List<Book> books = bookRepository.searchBooks(query);
+
+
+        return books.stream()
+                .map(this::convertToBookResponseDto)
+                .collect(Collectors.toList());
+    }
 }
