@@ -8,6 +8,10 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
+import com.pover.Library.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.pover.Library.model.User;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +19,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class AdminService {
+
+    @Autowired
+    private UserRepository userRepository;
+
     private final AdminRepository adminRepository;
     public AdminService(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;
@@ -55,5 +63,10 @@ public class AdminService {
             return admin;
         }
         return null;
+    }
+
+    public User getUserByMemberNumber(String memberNumber) {
+        return userRepository.findByMemberNumber(memberNumber)
+                .orElseThrow(() -> new RuntimeException("User not found with member number: " + memberNumber));
     }
 }

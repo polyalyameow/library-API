@@ -28,15 +28,20 @@ public class JwtUtil {
 
 
 
-    public String generateToken(Long id, Role role, String username) {
+    public String generateToken(Long id, Role role, String username, String memberNumber) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", id);
         claims.put("role", role.name());
-        claims.put("username", username);
+        if (username != null) {
+            claims.put("username", username);
+        }
+        if (memberNumber != null) {
+            claims.put("member_number", memberNumber);
+        }
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(username)
+                .setSubject(username != null ? username : memberNumber)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
@@ -50,12 +55,22 @@ public class JwtUtil {
     }
 
     public String extractUsername(String token) {
-        return extractAllClaims(token).getSubject();
+
+        return extractAllClaims(token).get("username", String.class);
     }
 
-    public boolean validateToken(String token, String username) {
+    public String extractMemberNumber(String token) {
+        return extractAllClaims(token).get("member_number", String.class);
+    }
+
+    public boolean validateToken(String token, String username, String memberNumber) {
         final String tokenUsername = extractUsername(token);
-        return (tokenUsername.equals(username) && !isTokenExpired(token));
+        final String tokenMemberNumber = extractMemberNumber(token);
+
+        boolean isUsernameValid = (tokenUsername != null && tokenUsername.equals(username));
+        boolean isMemberNumberValid = (tokenMemberNumber != null && tokenMemberNumber.equals(memberNumber));
+
+        return (isUsernameValid || isMemberNumberValid) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {

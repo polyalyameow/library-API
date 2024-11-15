@@ -1,5 +1,6 @@
 package com.pover.Library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -21,9 +22,10 @@ public class Loan {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @NotNull
+   // @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @NotNull
@@ -32,6 +34,7 @@ public class Loan {
     @NotNull
     private LocalDate due_date;
 
-    private LocalDate returned_date;
+    @Column(name = "returned_date")
+    private LocalDate returnedDate;
 
 }
