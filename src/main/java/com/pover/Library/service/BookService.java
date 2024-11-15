@@ -7,8 +7,11 @@ import com.pover.Library.model.Book;
 import com.pover.Library.model.Genre;
 import com.pover.Library.repository.BookRepository;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -81,6 +84,9 @@ public class BookService {
     public List<BookResponseDto> getBooksByTitle(String title) {
 
         List<Book> books = bookRepository.findByTitle(title);
+        if (books == null || books.isEmpty()) {
+            System.out.println("No books found with title: " + title);  // Add logging for troubleshooting
+        }
 
         return books.stream()
                 .map(this::convertToBookResponseDto)

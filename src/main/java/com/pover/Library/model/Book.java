@@ -24,6 +24,7 @@ public class Book {
     private int publication_year;
 
     @ManyToOne
+    //(cascade = CascadeType.PERSIST)
     //ev. Cascade
     @JoinColumn(name = "author_id")
     private Author author;
