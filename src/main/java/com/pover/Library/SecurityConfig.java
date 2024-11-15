@@ -12,6 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -25,11 +27,13 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/login", "/user/login", "/admin/visitor/by-member-number").permitAll()
-                        .requestMatchers("/loans/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN", "ROLE_LIBRARIAN")
-                        .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_LIBRARIAN")
-                        .requestMatchers("/user/profile").hasAuthority("ROLE_USER")
-                        .anyRequest().authenticated()
+                        .requestMatchers("/admin/login", "/user/login").permitAll()
+//                        .requestMatchers("/loans/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN", "ROLE_LIBRARIAN")
+//                        .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_LIBRARIAN")
+                        //.requestMatchers("/user/profile").hasAuthority("ROLE_USER")
+                        .requestMatchers("/admin/**").authenticated()
+                                .requestMatchers("/user/**").authenticated()
+                        .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -40,5 +44,19 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**") // Tillåt alla endpoints
+                        .allowedOrigins("http://127.0.0.1:5501") // Tillåt frontend-porten
+                        .allowedMethods("GET", "POST", "PUT", "DELETE") // Tillåtna metoder
+                        .allowedHeaders("*") // Tillåtna headers
+                        .allowCredentials(true); // Tillåt cookies om behövs
+            }
+        };
     }
 }

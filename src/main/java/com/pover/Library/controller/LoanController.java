@@ -1,5 +1,6 @@
 package com.pover.Library.controller;
 
+import com.pover.Library.dto.BookResponseDto;
 import com.pover.Library.dto.LoanRequestDto;
 import com.pover.Library.dto.LoanResponseDto;
 import com.pover.Library.service.LoanService;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/loans")
+@RequestMapping("/admin/loans")
 @Validated
 public class LoanController {
 
@@ -21,6 +22,17 @@ public class LoanController {
     public LoanController(LoanService loanService) {
         this.loanService = loanService;
     }
+
+
+//    @GetMapping("/loans")
+//    public ResponseEntity<List<LoanResponseDto>> getBooks() {
+//        List<LoanResponseDto> books = loanService.();
+//        if(books.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }else{
+//            return new ResponseEntity<>(books, HttpStatus.OK);
+//        }
+//    }
 
     @GetMapping("/{loanId}")
     public ResponseEntity<LoanResponseDto> getLoanById(@PathVariable Long loanId) {
@@ -40,11 +52,6 @@ public class LoanController {
         return loanService.returnBook(loanId);
     }
 
-//    @PutMapping("/update-due-date/{loanId}")
-//    public ResponseEntity<LoanResponseDto> updateLoanDueDate(@PathVariable Long loanId, @RequestParam @NotNull LocalDate newDueDate) {
-//        LoanResponseDto loanResponseDto = loanService.updateLoanDueDate(loanId, newDueDate);
-//        return ResponseEntity.ok(loanResponseDto);
-//    }
 
     @GetMapping("/{user_id}/active")
     public ResponseEntity<List<LoanResponseDto>> getUserActiveLoans(@PathVariable Long user_id) {
