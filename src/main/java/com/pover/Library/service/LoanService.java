@@ -29,6 +29,14 @@ public class LoanService {
         this.userRepository = userRepository;
     }
 
+    public List<LoanResponseDto> getAllLoans() {
+        List<Loan> loans = loanRepository.findAll();
+        return loans.stream()
+                .map(LoanResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+
     public LoanResponseDto getLoanById(Long id) {
         Loan loan = loanRepository.findById(id).orElseThrow(()  -> new IllegalArgumentException("Loan not found"));
         return new LoanResponseDto(loan);

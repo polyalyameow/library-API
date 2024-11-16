@@ -23,16 +23,11 @@ public class LoanController {
         this.loanService = loanService;
     }
 
-
-//    @GetMapping("/loans")
-//    public ResponseEntity<List<LoanResponseDto>> getBooks() {
-//        List<LoanResponseDto> books = loanService.();
-//        if(books.isEmpty()) {
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }else{
-//            return new ResponseEntity<>(books, HttpStatus.OK);
-//        }
-//    }
+    @GetMapping
+    public ResponseEntity<List<LoanResponseDto>> getAllLoans() {
+        List<LoanResponseDto> allLoans = loanService.getAllLoans();
+        return ResponseEntity.ok(allLoans);
+    }
 
     @GetMapping("/{loanId}")
     public ResponseEntity<LoanResponseDto> getLoanById(@PathVariable Long loanId) {
