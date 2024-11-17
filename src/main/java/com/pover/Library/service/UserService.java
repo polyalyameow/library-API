@@ -139,10 +139,17 @@ public class UserService {
 
     @Transactional
     public ExtendedUserProfileResponseDto updateUserProfileByMemberNumber(ExtendedUserProfileRequestDto extendedUserProfileRequestDto) {
+
+
         String memberNumber = extendedUserProfileRequestDto.getMember_number();
 
         User user = userRepository.findByMemberNumber(memberNumber)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (!memberNumber.equals(user.getMemberNumber())) {
+            throw new IllegalArgumentException("Member number cannot be changed.");
+        }
+
 
         if (extendedUserProfileRequestDto.getFirst_name() != null && !extendedUserProfileRequestDto.getFirst_name().isBlank()) {
             user.setFirst_name(extendedUserProfileRequestDto.getFirst_name());

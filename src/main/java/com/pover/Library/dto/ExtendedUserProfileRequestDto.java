@@ -25,11 +25,6 @@ public class ExtendedUserProfileRequestDto {
     @Pattern(regexp = "^\\d{4}$", message = "Password must be 4 digits", groups = {CreateValidationGroup.class, UpdateValidationGroup.class})
     private String password;
 
-    @Pattern(
-            regexp = "^(19|20)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])\\d{4}$",
-            message = "Please enter twelve digits",
-            groups = {CreateValidationGroup.class, UpdateValidationGroup.class}
-    )
     private String member_number;
 
 }
