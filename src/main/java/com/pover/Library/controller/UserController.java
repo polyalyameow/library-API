@@ -1,15 +1,12 @@
 package com.pover.Library.controller;
 
-
 import com.pover.Library.dto.*;
 import com.pover.Library.service.UserService;
-import com.pover.Library.validation.UpdateValidationGroup;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -26,26 +23,40 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(
+            summary = "Create a new user",
+            description = "Creates a new user account in the system with the provided details."
+    )
     @PostMapping
     public ResponseEntity<UserResponseDto> create(@Valid @RequestBody UserRequestDto userRequestDto) {
             UserResponseDto userResponseDto = userService.createUser(userRequestDto);
             return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
     }
 
-
+    @Operation(
+            summary = "Get all users",
+            description = "Retrieves a list of all users in the system."
+    )
     @GetMapping
     public ResponseEntity<List<UserResponseDto>> getAll(){
         List<UserResponseDto> users = userService.getUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @Operation(
+            summary = "Get user by ID",
+            description = "Retrieves the details of a specific user based on the user ID."
+    )
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getById(@PathVariable long id){
         UserResponseDto userResponseDto = userService.getUserById(id);
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
-
+    @Operation(
+            summary = "Login user",
+            description = "Authenticates a user based on member number and password, returning a token if successful."
+    )
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
         String memberNumber = credentials.get("member_number");
@@ -75,6 +86,10 @@ public class UserController {
     // user's id isn't needed because of token
     // the profile of the currently authenticated user will be returned
 
+    @Operation(
+            summary = "Get user profile",
+            description = "Retrieves the profile of the currently authenticated user based on the provided JWT token."
+    )
     @GetMapping("/profile")
     public ResponseEntity<BasicUserProfileResponseDto> getUserProfile(@RequestHeader("Authorization") String token) {
 
@@ -83,6 +98,10 @@ public class UserController {
         return ResponseEntity.ok(userProfile);
     }
 
+    @Operation(
+            summary = "Update user profile",
+            description = "Updates the profile of the currently authenticated user based on the provided JWT token and new data."
+    )
     @PutMapping("/profile")
     public ResponseEntity<BasicUserProfileResponseDto> updateUserProfile(@RequestHeader("Authorization") String token,
                                                                          @RequestBody BasicUserProfileRequestDto basicUserProfileRequestDto) {
@@ -90,5 +109,22 @@ public class UserController {
         String jwtToken = token.substring(7);
         BasicUserProfileResponseDto updatedProfile = userService.updateUserProfile(jwtToken, basicUserProfileRequestDto);
         return ResponseEntity.ok(updatedProfile);
+    }
+
+    @Operation(
+            summary = "Logout user",
+            description = "Logs out the currently authenticated user based on the provided JWT token."
+    )
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String authHeader) {
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+            boolean isLoggedOut = userService.logout(token);
+
+            if (isLoggedOut) {
+                return new ResponseEntity<>("Successfully logged out", HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>("Invalid logout request", HttpStatus.BAD_REQUEST);
     }
 }

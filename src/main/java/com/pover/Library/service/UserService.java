@@ -180,4 +180,9 @@ public class UserService {
 
         return new ExtendedUserProfileResponseDto(user.getFirst_name(), user.getLast_name(), user.getEmail(), user.getPassword(), user.getMemberNumber(), activeLoans);
     }
+
+    // LOGOUT
+    public boolean logout(String token) {
+        return token != null && !token.isEmpty();
+    }
 }
