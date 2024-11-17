@@ -1,16 +1,15 @@
 package com.pover.Library.controller;
 
 
-import com.pover.Library.dto.AdminResponseDto;
-import com.pover.Library.dto.MemberNumberRequestDto;
-import com.pover.Library.dto.UserRequestDto;
-import com.pover.Library.dto.UserResponseDto;
+import com.pover.Library.dto.*;
 import com.pover.Library.service.UserService;
+import com.pover.Library.validation.UpdateValidationGroup;
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -19,7 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
 
@@ -27,14 +26,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<UserResponseDto> create(@Valid @RequestBody UserRequestDto userRequestDto) {
             UserResponseDto userResponseDto = userService.createUser(userRequestDto);
             return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
     }
 
 
-    @GetMapping("/users")
+    @GetMapping
     public ResponseEntity<List<UserResponseDto>> getAll(){
         List<UserResponseDto> users = userService.getUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
@@ -72,5 +71,24 @@ public class UserController {
                 });
     }
 
+    // CONTROLLERS FOR USER PROFILE CONTROLLED BY USER
+    // user's id isn't needed because of token
+    // the profile of the currently authenticated user will be returned
 
+    @GetMapping("/profile")
+    public ResponseEntity<BasicUserProfileResponseDto> getUserProfile(@RequestHeader("Authorization") String token) {
+
+        String jwtToken = token.substring(7);
+        BasicUserProfileResponseDto userProfile = userService.getUserProfile(jwtToken);
+        return ResponseEntity.ok(userProfile);
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<BasicUserProfileResponseDto> updateUserProfile(@RequestHeader("Authorization") String token,
+                                                                         @RequestBody BasicUserProfileRequestDto basicUserProfileRequestDto) {
+
+        String jwtToken = token.substring(7);
+        BasicUserProfileResponseDto updatedProfile = userService.updateUserProfile(jwtToken, basicUserProfileRequestDto);
+        return ResponseEntity.ok(updatedProfile);
+    }
 }

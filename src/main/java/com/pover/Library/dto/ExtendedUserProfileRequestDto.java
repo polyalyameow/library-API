@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Getter
 
-public class AdminProfileRequestDto {
+public class ExtendedUserProfileRequestDto {
 
     @NotBlank(groups = CreateValidationGroup.class)
     private String first_name;

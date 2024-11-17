@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/loans")
+@RequestMapping("/api/admin/loans")
 @Validated
 public class LoanController {
 
