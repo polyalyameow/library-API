@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -27,6 +28,7 @@ public class UserController {
             summary = "Create a new user",
             description = "Creates a new user account in the system with the provided details."
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<UserResponseDto> create(@Valid @RequestBody UserRequestDto userRequestDto) {
             UserResponseDto userResponseDto = userService.createUser(userRequestDto);
@@ -37,6 +39,7 @@ public class UserController {
             summary = "Get all users",
             description = "Retrieves a list of all users in the system."
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<UserResponseDto>> getAll(){
         List<UserResponseDto> users = userService.getUsers();
@@ -47,6 +50,7 @@ public class UserController {
             summary = "Get user by ID",
             description = "Retrieves the details of a specific user based on the user ID."
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getById(@PathVariable long id){
         UserResponseDto userResponseDto = userService.getUserById(id);
@@ -90,6 +94,7 @@ public class UserController {
             summary = "Get user profile",
             description = "Retrieves the profile of the currently authenticated user based on the provided JWT token."
     )
+
     @GetMapping("/profile")
     public ResponseEntity<BasicUserProfileResponseDto> getUserProfile(@RequestHeader("Authorization") String token) {
 
@@ -102,6 +107,7 @@ public class UserController {
             summary = "Update user profile",
             description = "Updates the profile of the currently authenticated user based on the provided JWT token and new data."
     )
+
     @PutMapping("/profile")
     public ResponseEntity<BasicUserProfileResponseDto> updateUserProfile(@RequestHeader("Authorization") String token,
                                                                          @RequestBody BasicUserProfileRequestDto basicUserProfileRequestDto) {
@@ -115,6 +121,7 @@ public class UserController {
             summary = "Logout user",
             description = "Logs out the currently authenticated user based on the provided JWT token."
     )
+
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestHeader("Authorization") String authHeader) {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
