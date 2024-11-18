@@ -45,14 +45,14 @@ public class BookController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/add")
+    @PostMapping("/api/add")
     public ResponseEntity<BookResponseDto> addBook(@Valid @RequestBody BookRequestDto bookRequestDto) {
         BookResponseDto bookResponseDto = bookService.addBook(bookRequestDto);
         return new ResponseEntity<>(bookResponseDto, HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/api/delete/{id}")
     public ResponseEntity<String> deleteBook(@PathVariable Long id) {
         if (bookRepository.existsById(id)) {
             bookRepository.deleteById(id);
@@ -61,7 +61,7 @@ public class BookController {
             return new ResponseEntity<>("Book not found", HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("/search")
+    @GetMapping("/api/get/search")
     public List<BookResponseDto> searchBooks(@RequestParam("query") String query) {
         return bookService.searchBooks(query);
     }

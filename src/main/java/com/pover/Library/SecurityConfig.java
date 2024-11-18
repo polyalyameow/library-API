@@ -27,13 +27,11 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/login", "/user/login").permitAll()
-//                        .requestMatchers("/loans/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN", "ROLE_LIBRARIAN")
-//                        .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_LIBRARIAN")
-                        //.requestMatchers("/user/profile").hasAuthority("ROLE_USER")
-                        .requestMatchers("/admin/**").authenticated()
+                        .requestMatchers("/api/admin/login", "/api/user/login").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/book/get/**").authenticated()
                                 .requestMatchers("/user/**").authenticated()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -51,11 +49,11 @@ public class SecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // Tillåt alla endpoints
-                        .allowedOrigins("http://127.0.0.1:5501") // Tillåt frontend-porten
-                        .allowedMethods("GET", "POST", "PUT", "DELETE") // Tillåtna metoder
-                        .allowedHeaders("*") // Tillåtna headers
-                        .allowCredentials(true); // Tillåt cookies om behövs
+                registry.addMapping("/**")
+                        .allowedOrigins("http://127.0.0.1:5501")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }
