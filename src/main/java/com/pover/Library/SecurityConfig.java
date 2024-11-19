@@ -30,7 +30,11 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/admin/login", "/api/user/login", "/api/books", "/api/books/**").permitAll()
+                        .requestMatchers("/api/admin/login", "/api/user/login", "/api/books", "/api/books/**",
+                                "/swagger-ui/**",  // Swagger UI
+                                "/v3/api-docs/**", // OpenAPI-dokumentation
+                                "/swagger-resources/**", // Swagger-resurser
+                                "/webjars/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
 //                        .requestMatchers("/api/book/get/**").authenticated()
                         .requestMatchers("/api/user/**").authenticated()
@@ -60,4 +64,6 @@ public class SecurityConfig {
             }
         };
     }
+
+
 }

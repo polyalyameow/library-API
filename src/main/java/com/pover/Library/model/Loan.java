@@ -19,7 +19,7 @@ public class Loan {
     private Long loan_id;
 
     @NotNull
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
 

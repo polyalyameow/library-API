@@ -53,8 +53,13 @@ public class LoanService {
             throw new IllegalArgumentException("Book is not available for loan.");
         }
 
-        book.setAvailable(false);
-        bookRepository.save(book);
+        boolean loanExists = loanRepository.existsByBookIdAndReturnedDateIsNull(loanRequestDto.getBookId());
+        if (loanExists) {
+            throw new IllegalArgumentException("Book is already loaned.");
+        }
+
+//        book.setAvailable(false);
+//        bookRepository.save(book);
 
         Loan loan = new Loan();
         loan.setBook(book);
@@ -62,6 +67,10 @@ public class LoanService {
         loan.setLoan_date(LocalDate.now());
         loan.setDue_date(LocalDate.now().plusWeeks(5));
         loan.setReturnedDate(null);
+
+        book.setAvailable(false);
+        bookRepository.save(book);
+
         loanRepository.save(loan);
 
         user.getLoans().add(loan);
