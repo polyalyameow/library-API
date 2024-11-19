@@ -12,4 +12,5 @@ import java.util.List;
 public interface LoanRepository extends JpaRepository<Loan, Long> {
 
     List<Loan> findByUserAndReturnedDateIsNull(User user);
+    boolean existsByBook_BookId(Long bookId);
 }

@@ -72,6 +72,7 @@ public class LoanService {
 
     }
 
+
     @Transactional
     public LoanResponseDto returnBook(Long loanId) {
 
@@ -92,7 +93,6 @@ public class LoanService {
         loanRepository.save(loan);
         return new LoanResponseDto(loan);
     }
-
 
     public List<LoanResponseDto> getUserActiveLoans(Long userId) {
         User user = userRepository.findById(userId)

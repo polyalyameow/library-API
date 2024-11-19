@@ -16,7 +16,8 @@ import java.util.Set;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long book_id;
+    @Column(name = "book_id")
+    private Long bookId;
 
     @NotNull(message = "Title is required")
     private String title;
