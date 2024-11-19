@@ -29,7 +29,7 @@ public class AdminController {
 
 
     @Operation(summary = "Create a new Admin", description = "Creates a new admin user with a unique username")
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<AdminResponseDto> create(@Valid @RequestBody AdminRequestDto adminRequestDto){
         AdminResponseDto adminResponseDto = adminService.createAdmin(adminRequestDto);
 
@@ -37,13 +37,13 @@ public class AdminController {
         return new ResponseEntity<>( adminResponseDto, HttpStatus.CREATED);
 }
     @Operation(summary = "Get all Admins", description = "Get all admins incl librarians")
-    @GetMapping("/get")
+    @GetMapping()
     public ResponseEntity<List<AdminResponseDto>> getAll(){
         List<AdminResponseDto> admins = adminService.getAdmins();
         return new ResponseEntity<>(admins, HttpStatus.OK);
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<AdminResponseDto> getById(@PathVariable long id){
         AdminResponseDto adminResponseDto = adminService.getAdminById(id);
         return new ResponseEntity<>(adminResponseDto, HttpStatus.OK);
