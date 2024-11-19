@@ -32,7 +32,7 @@ public class Author {
     private LocalDate birth_date;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> books;
 
 }
