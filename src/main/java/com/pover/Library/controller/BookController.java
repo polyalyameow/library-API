@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/book")
+@RequestMapping("/api/books")
 public class BookController {
     private final BookService bookService;
     private final BookRepository bookRepository;
@@ -24,7 +24,7 @@ public class BookController {
         this.bookRepository = bookRepository;
     }
 
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<List<BookResponseDto>> getBooks() {
         List<BookResponseDto> books = bookService.getBooks();
         if(books.isEmpty()) {
@@ -34,36 +34,58 @@ public class BookController {
         }
     }
 
-    @GetMapping("/get/{title}")
-    public ResponseEntity<List<BookResponseDto>> getBooksByTitle(@PathVariable String title) {
-        List<BookResponseDto> books = bookService.getBooksByTitle(title);
-        if(books.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else{
-            return new ResponseEntity<>(books, HttpStatus.OK);
-        }
+    @GetMapping("/{id}")
+    public ResponseEntity<BookResponseDto> getBookById(@PathVariable Long id) {
+        return ResponseEntity.ok(bookService.getBookById(id));
     }
 
+    @GetMapping("/{id}/availability")
+    public ResponseEntity<Boolean> checkAvailability(@PathVariable Long id) {
+        return ResponseEntity.ok(bookService.isBookAvailable(id));
+    }
+
+    // GET /api/book/search?query=harry
+    @GetMapping("/search")
+    public ResponseEntity<List<BookResponseDto>> searchBooks(@RequestParam("query") String query) {
+        List<BookResponseDto> results = bookService.searchBooks(query);
+        if (results.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(results, HttpStatus.OK);
+    }
+
+
+
+//    @GetMapping("/{title}")
+//    public ResponseEntity<List<BookResponseDto>> getBooksByTitle(@PathVariable String title) {
+//        List<BookResponseDto> books = bookService.getBooksByTitle(title);
+//        if(books.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }else{
+//            return new ResponseEntity<>(books, HttpStatus.OK);
+//        }
+//    }
+
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/api/add")
+    @PostMapping()
     public ResponseEntity<BookResponseDto> addBook(@Valid @RequestBody BookRequestDto bookRequestDto) {
         BookResponseDto bookResponseDto = bookService.addBook(bookRequestDto);
         return new ResponseEntity<>(bookResponseDto, HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/api/delete/{id}")
+    @PutMapping("/{id}")
+    public ResponseEntity<BookResponseDto> updateBook(@PathVariable Long id, @Valid @RequestBody BookRequestDto bookRequestDto) {
+        BookResponseDto updatedBook = bookService.updateBook(id, bookRequestDto);
+        return ResponseEntity.ok(updatedBook);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteBook(@PathVariable Long id) {
-        if (bookRepository.existsById(id)) {
-            bookRepository.deleteById(id);
-            return new ResponseEntity<>("Book deleted", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Book not found", HttpStatus.NOT_FOUND);
-        }
+        bookService.deleteBook(id);
+        return ResponseEntity.ok("Book deleted successfully.");
     }
-    @GetMapping("/api/get/search")
-    public List<BookResponseDto> searchBooks(@RequestParam("query") String query) {
-        return bookService.searchBooks(query);
-    }
+
     }
 

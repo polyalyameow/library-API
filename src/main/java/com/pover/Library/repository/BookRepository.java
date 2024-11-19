@@ -12,7 +12,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByTitle(String title);
 
-    List<Book> findByAvailable(boolean available);
+    //List<Book> findByAvailable(boolean available);
 
     @Query("SELECT b FROM Book b " +
             "JOIN b.author a " +
