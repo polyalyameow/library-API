@@ -58,6 +58,17 @@ public class UserController {
     }
 
     @Operation(
+            summary = "Delete user",
+            description = "Deletes user from database based on provided ID"
+    )
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        userService.deleteUserById(id);
+        return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
+    }
+
+    @Operation(
             summary = "Login user",
             description = "Authenticates a user based on member number and password, returning a token if successful."
     )

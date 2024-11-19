@@ -65,6 +65,13 @@ public class UserService {
         return convertToDto(user);
     }
 
+    @Transactional
+    public void deleteUserById(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new RuntimeException("User not found");
+        }
+        userRepository.deleteById(userId);
+    }
 
     // konverterar User till UserResponseDto
     private UserResponseDto convertToDto(User user) {

@@ -68,8 +68,8 @@ public class AdminService {
         return token != null && !token.isEmpty();
     }
 
-    public User getUserByMemberNumber(String memberNumber) {
-        return userRepository.findByMemberNumber(memberNumber)
-                .orElseThrow(() -> new RuntimeException("User not found with member number: " + memberNumber));
-    }
+//    public User getUserByMemberNumber(String memberNumber) {
+//        return userRepository.findByMemberNumber(memberNumber)
+//                .orElseThrow(() -> new RuntimeException("User not found with member number: " + memberNumber));
+//    }
 }
