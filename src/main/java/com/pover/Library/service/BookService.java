@@ -84,7 +84,7 @@ public class BookService {
         if (bookRequestDto.getTitle() != null) {
             existingBook.setTitle(bookRequestDto.getTitle());
         }
-        if (bookRequestDto.getPublication_year() != 0) { // Or use null-safe check if changed to Integer
+        if (bookRequestDto.getPublication_year() != 0) {
             existingBook.setPublication_year(bookRequestDto.getPublication_year());
         }
         if (bookRequestDto.getAuthor_id() != null) {
